@@ -38,4 +38,46 @@ public class FileParser {
             e.printStackTrace();
         }
     }
+
+    void parseFutoshikiFile(){
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+
+            String line = br.readLine();
+
+            // create temporary variable of futoshiki card
+            int[][] card = new int[futoshiki.getDimensions()][futoshiki.getDimensions()];
+
+            // skip all lines from beginning to node coordinate section
+            while (!line.startsWith("ITEMS")){
+                line = br.readLine();
+            }
+            // here caret should be on the first row of card data
+
+            // read card from file
+            for (int i = 0; i < futoshiki.getDimensions(); i++){
+                line = br.readLine();
+
+                // split row to table (one value per cell, split by tab)
+                String[] cardRowString = line.split(";");
+                int[] cardRow = convertStringArrayToIntegerArray(cardRowString);
+
+                // add cardRow to card
+                card[i] = cardRow;
+            }
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private int[] convertStringArrayToIntegerArray(String[] cardRowString) {
+        int[] result = new int[cardRowString.length];
+
+        for (int i = 0; i < cardRowString.length; i++){
+            result[i] = Integer.parseInt(cardRowString[i]);
+        }
+
+        return result;
+    }
 }
