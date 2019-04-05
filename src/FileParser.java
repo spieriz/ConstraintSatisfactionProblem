@@ -104,16 +104,16 @@ public class FileParser {
     private void parseSkyscraperRestrictions(String direction, int[] floors) {
         switch (direction){
             case "G":
-                skyscraper.setFloorsTop(floors);
+                skyscraper.setRestrictionsTop(floors);
                 break;
             case "D":
-                skyscraper.setFloorsBottom(floors);
+                skyscraper.setRestrictionsBottom(floors);
                 break;
             case "L":
-                skyscraper.setFloorsLeft(floors);
+                skyscraper.setRestrictionsLeft(floors);
                 break;
             case "R":
-                skyscraper.setFloorsRight(floors);
+                skyscraper.setRestrictionsRight(floors);
                 break;
         }
     }
