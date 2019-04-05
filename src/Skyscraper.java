@@ -1,6 +1,11 @@
 public class Skyscraper {
     private int dimensions;
 
+    private int[] restrictionsTop;
+    private int[] restrictionsRight;
+    private int[] restrictionsBottom;
+    private int[] restrictionsLeft;
+
     Skyscraper(int dimensions){
         this.dimensions = dimensions;
     }
