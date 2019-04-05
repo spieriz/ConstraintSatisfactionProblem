@@ -73,6 +73,37 @@ public class FileParser {
         }
     }
 
+    void parseSkyscraperFile(){
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+
+            // skip first line which contains dimensions number
+            br.readLine();
+
+            for (int i = 0; i < 4; i++){
+                String line = br.readLine();
+
+                String[] array = line.split(";");
+
+                String direction = array[0];
+                int[] floors = new int[skyscraper.getDimensions()];
+
+                for (int j = 0; j < skyscraper.getDimensions(); j++){
+                    floors[j] = Integer.parseInt(array[j + 1]);
+                }
+
+                parseSkyscraperFloors(direction, floors);
+            }
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void parseSkyscraperFloors(String direction, int[] floors) {
+
+    }
+
     private int[] convertStringArrayToIntegerArray(String[] cardRowString) {
         int[] result = new int[cardRowString.length];
 
