@@ -1,10 +1,10 @@
 public class Skyscraper {
     private int dimensions;
 
-    private int[] restrictionsTop;
-    private int[] restrictionsRight;
-    private int[] restrictionsBottom;
-    private int[] restrictionsLeft;
+    private int[] floorsTop;
+    private int[] floorsRight;
+    private int[] floorsBottom;
+    private int[] floorsLeft;
 
     Skyscraper(int dimensions){
         this.dimensions = dimensions;
@@ -14,19 +14,19 @@ public class Skyscraper {
         return dimensions;
     }
 
-    public void setRestrictionsTop(int[] restrictionsTop) {
-        this.restrictionsTop = restrictionsTop;
+    public void setFloorsTop(int[] floorsTop) {
+        this.floorsTop = floorsTop;
     }
 
-    public void setRestrictionsRight(int[] restrictionsRight) {
-        this.restrictionsRight = restrictionsRight;
+    public void setFloorsRight(int[] floorsRight) {
+        this.floorsRight = floorsRight;
     }
 
-    public void setRestrictionsBottom(int[] restrictionsBottom) {
-        this.restrictionsBottom = restrictionsBottom;
+    public void setFloorsBottom(int[] floorsBottom) {
+        this.floorsBottom = floorsBottom;
     }
 
-    public void setRestrictionsLeft(int[] restrictionsLeft) {
-        this.restrictionsLeft = restrictionsLeft;
+    public void setFloorsLeft(int[] floorsLeft) {
+        this.floorsLeft = floorsLeft;
     }
 }
