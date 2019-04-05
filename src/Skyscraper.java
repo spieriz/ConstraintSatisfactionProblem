@@ -1,5 +1,5 @@
 public class Skyscraper {
-    int dimensions;
+    private int dimensions;
 
     Skyscraper(int dimensions){
         this.dimensions = dimensions;
