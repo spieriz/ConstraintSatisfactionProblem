@@ -101,7 +101,20 @@ public class FileParser {
     }
 
     private void parseSkyscraperFloors(String direction, int[] floors) {
-
+        switch (direction){
+            case "G":
+                skyscraper.setFloorsTop(floors);
+                break;
+            case "D":
+                skyscraper.setFloorsBottom(floors);
+                break;
+            case "L":
+                skyscraper.setFloorsLeft(floors);
+                break;
+            case "R":
+                skyscraper.setFloorsRight(floors);
+                break;
+        }
     }
 
     private int[] convertStringArrayToIntegerArray(String[] cardRowString) {
