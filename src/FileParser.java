@@ -80,19 +80,20 @@ public class FileParser {
             // skip first line which contains dimensions number
             br.readLine();
 
+            // for each direction get restrictions
             for (int i = 0; i < 4; i++){
                 String line = br.readLine();
 
                 String[] array = line.split(";");
 
                 String direction = array[0];
-                int[] floors = new int[skyscraper.getDimensions()];
+                int[] restrictions = new int[skyscraper.getDimensions()];
 
                 for (int j = 0; j < skyscraper.getDimensions(); j++){
-                    floors[j] = Integer.parseInt(array[j + 1]);
+                    restrictions[j] = Integer.parseInt(array[j + 1]);
                 }
 
-                parseSkyscraperFloors(direction, floors);
+                parseSkyscraperRestrictions(direction, restrictions);
             }
 
         } catch (IOException e){
@@ -100,7 +101,7 @@ public class FileParser {
         }
     }
 
-    private void parseSkyscraperFloors(String direction, int[] floors) {
+    private void parseSkyscraperRestrictions(String direction, int[] floors) {
         switch (direction){
             case "G":
                 skyscraper.setFloorsTop(floors);
