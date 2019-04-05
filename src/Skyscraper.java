@@ -4,4 +4,8 @@ public class Skyscraper {
     Skyscraper(int dimensions){
         this.dimensions = dimensions;
     }
+
+    public int getDimensions() {
+        return dimensions;
+    }
 }
