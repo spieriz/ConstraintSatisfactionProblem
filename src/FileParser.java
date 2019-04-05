@@ -45,16 +45,16 @@ public class FileParser {
 
             String line = br.readLine();
 
-            // create temporary variable of futoshiki card
-            int[][] card = new int[futoshiki.getDimensions()][futoshiki.getDimensions()];
+            // create temporary variable of futoshiki board
+            int[][] board = new int[futoshiki.getDimensions()][futoshiki.getDimensions()];
 
             // skip all lines from beginning to node coordinate section
             while (!line.startsWith("ITEMS")){
                 line = br.readLine();
             }
-            // here caret should be on the first row of card data
+            // here caret should be on the first row of board data
 
-            // read card from file
+            // read board from file
             for (int i = 0; i < futoshiki.getDimensions(); i++){
                 line = br.readLine();
 
@@ -62,8 +62,8 @@ public class FileParser {
                 String[] cardRowString = line.split(";");
                 int[] cardRow = convertStringArrayToIntegerArray(cardRowString);
 
-                // add cardRow to card
-                card[i] = cardRow;
+                // add cardRow to board
+                board[i] = cardRow;
             }
 
         } catch (IOException e){
