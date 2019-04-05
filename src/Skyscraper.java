@@ -13,4 +13,20 @@ public class Skyscraper {
     public int getDimensions() {
         return dimensions;
     }
+
+    public void setRestrictionsTop(int[] restrictionsTop) {
+        this.restrictionsTop = restrictionsTop;
+    }
+
+    public void setRestrictionsRight(int[] restrictionsRight) {
+        this.restrictionsRight = restrictionsRight;
+    }
+
+    public void setRestrictionsBottom(int[] restrictionsBottom) {
+        this.restrictionsBottom = restrictionsBottom;
+    }
+
+    public void setRestrictionsLeft(int[] restrictionsLeft) {
+        this.restrictionsLeft = restrictionsLeft;
+    }
 }
