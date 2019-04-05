@@ -64,6 +64,8 @@ public class FileParser {
 
                 // add cardRow to board
                 board[i] = cardRow;
+
+                futoshiki.setBoard(board);
             }
 
         } catch (IOException e){
