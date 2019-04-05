@@ -19,4 +19,23 @@ public class FileParser {
         futoshiki = null;
         skyscraper = null;
     }
+
+    void parseHeader(){
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+
+            int dimensions = Integer.parseInt(br.readLine());
+
+            switch(csp_type){
+                case FUTOSHIKI:
+                    futoshiki = new Futoshiki(dimensions);
+                    break;
+                case SKYSCRAPER:
+                    skyscraper = new Skyscraper(dimensions);
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
