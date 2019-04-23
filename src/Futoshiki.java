@@ -131,6 +131,40 @@ public class Futoshiki {
         return newItemsList;
     }
 
+    int[][] calculateFutoshikiBacktracking(int[][] board, int currentIndex) {
+        ArrayList<Integer> boardList = boardToList(board);
+
+        while (boardList.get(currentIndex) != 0) {
+            currentIndex++;
+        }
+
+        for (int cell = currentIndex; cell < dimensions * dimensions && !isCompleted(board); cell++) {
+
+            for (int value = 1; value <= dimensions && !isCompleted(board); value++) {
+                boardList.remove(currentIndex);
+                boardList.add(currentIndex, value);
+
+                board = boardListToBoard(boardList);
+
+                if (checkIfBoardMeetsRestrictions(board) && !isCompleted(board)) {
+                    board = calculateFutoshikiBacktracking(board, currentIndex + 1);
+                }
+            }
+            currentIndex++;
+        }
+
+        return board;
+    }
+
+    private int findNextZeroElement(ArrayList<Integer> boardList, int currentElementIndex) {
+        int index = -1;
+        for (int i = currentElementIndex + 1; i < boardList.size() && index == -1; i++) {
+            if (boardList.get(i) == 0)
+                index = i;
+        }
+        return index;
+    }
+
     String restrictionsToString() {
         StringBuilder stringBuilder = new StringBuilder();
 
