@@ -21,35 +21,35 @@ public class Restriction {
         this.columnBigger = columnBigger;
     }
 
-    public int getRowSmaller() {
+    int getRowSmaller() {
         return rowSmaller;
     }
 
-    public void setRowSmaller(int rowSmaller) {
+    void setRowSmaller(int rowSmaller) {
         this.rowSmaller = rowSmaller;
     }
 
-    public int getColumnSmaller() {
+    int getColumnSmaller() {
         return columnSmaller;
     }
 
-    public void setColumnSmaller(int columnSmaller) {
+    void setColumnSmaller(int columnSmaller) {
         this.columnSmaller = columnSmaller;
     }
 
-    public int getRowBigger() {
+    int getRowBigger() {
         return rowBigger;
     }
 
-    public void setRowBigger(int rowBigger) {
+    void setRowBigger(int rowBigger) {
         this.rowBigger = rowBigger;
     }
 
-    public int getColumnBigger() {
+    int getColumnBigger() {
         return columnBigger;
     }
 
-    public void setColumnBigger(int columnBigger) {
+    void setColumnBigger(int columnBigger) {
         this.columnBigger = columnBigger;
     }
 }
