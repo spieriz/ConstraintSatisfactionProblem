@@ -1,11 +1,11 @@
 import java.io.*;
 
-public class FileParser {
+class FileParser {
     private File file;
     private CSP_TYPE csp_type;
 
-    Futoshiki futoshiki;
-    Skyscraper skyscraper;
+    private Futoshiki futoshiki;
+    private Skyscraper skyscraper;
 
     public enum CSP_TYPE {
         FUTOSHIKI,
@@ -49,7 +49,7 @@ public class FileParser {
             int[][] board = new int[futoshiki.getDimensions()][futoshiki.getDimensions()];
 
             // skip all lines from beginning to node coordinate section
-            while (!line.startsWith("ITEMS")){
+            while (!line.startsWith("START")){
                 line = br.readLine();
             }
             // here caret should be on the first row of board data
@@ -68,9 +68,33 @@ public class FileParser {
                 futoshiki.setBoard(board);
             }
 
+            // skip all lines from current line to relations section
+            while (!line.startsWith("REL")){
+                line = br.readLine();
+            }
+
+            // read relations
+            while ((line = br.readLine()) != null) {
+                String[] relations = line.split(";");
+
+                Restriction restriction = new Restriction();
+
+                restriction.setRowSmaller(getNumberFromChar(relations[0].charAt(0)) - 1);
+                restriction.setColumnSmaller(Character.getNumericValue(relations[0].charAt(1)) - 1);
+
+                restriction.setRowBigger(getNumberFromChar(relations[1].charAt(0)) - 1);
+                restriction.setColumnBigger(Character.getNumericValue(relations[1].charAt(1)) - 1);
+
+                futoshiki.addRestriction(restriction);
+            }
+
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    private int getNumberFromChar(char charAt) {
+        return Character.getNumericValue(Character.toUpperCase(charAt) - 16);
     }
 
     void parseSkyscraperFile(){
@@ -126,5 +150,9 @@ public class FileParser {
         }
 
         return result;
+    }
+
+    public Futoshiki getFutoshiki(){
+        return futoshiki;
     }
 }
