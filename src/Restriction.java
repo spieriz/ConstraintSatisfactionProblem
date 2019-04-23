@@ -52,4 +52,8 @@ public class Restriction {
     void setColumnBigger(int columnBigger) {
         this.columnBigger = columnBigger;
     }
+
+    public String toString() {
+        return rowSmaller + "" + columnSmaller + "<" + rowBigger + "" + columnBigger;
+    }
 }
