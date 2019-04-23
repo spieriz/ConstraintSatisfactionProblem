@@ -156,15 +156,6 @@ public class Futoshiki {
         return board;
     }
 
-    private int findNextZeroElement(ArrayList<Integer> boardList, int currentElementIndex) {
-        int index = -1;
-        for (int i = currentElementIndex + 1; i < boardList.size() && index == -1; i++) {
-            if (boardList.get(i) == 0)
-                index = i;
-        }
-        return index;
-    }
-
     String restrictionsToString() {
         StringBuilder stringBuilder = new StringBuilder();
 
