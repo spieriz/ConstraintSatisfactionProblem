@@ -6,6 +6,7 @@ public class Futoshiki {
     private int[][] board;
     private int dimensions;
     private ArrayList<Restriction> restrictions;
+    private ArrayList<Integer> itemsList;
 
     Futoshiki(int dimensions) {
         this.dimensions = dimensions;
@@ -93,6 +94,31 @@ public class Futoshiki {
         }
 
         return true;
+    }
+
+    private int[][] itemsListToBoard() {
+        int[][] newBoard = new int[dimensions][dimensions];
+
+        for (int row = 0; row < dimensions; row++) {
+            for (int col = 0; col < dimensions; col++) {
+                newBoard[row][col] = itemsList.get(row * dimensions + col);
+                itemsList.remove(row * dimensions + col);
+            }
+        }
+
+        return newBoard;
+    }
+
+    private ArrayList<Integer> boardToList() {
+        ArrayList<Integer> newItemsList = new ArrayList<>();
+
+        for (int row = 0; row < dimensions; row++) {
+            for (int col = 0; col < dimensions; col++) {
+                newItemsList.add(board[row][col]);
+            }
+        }
+
+        return newItemsList;
     }
 
     String restrictionsToString() {
