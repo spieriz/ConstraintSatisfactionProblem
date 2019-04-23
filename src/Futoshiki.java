@@ -41,11 +41,11 @@ public class Futoshiki {
         return checkRelationsRestrictions(board) && checkUniquenessRestrictions(board);
     }
 
-    private boolean checkUniquenessRestrictions() {
-        return checkUniquenessRows() && checkUniquenessColumns();
+    private boolean checkUniquenessRestrictions(int[][] board) {
+        return checkUniquenessRows(board) && checkUniquenessColumns(board);
     }
 
-    private boolean checkUniquenessRows() {
+    private boolean checkUniquenessRows(int[][] board) {
         boolean meetsRestrictions = true;
 
         for (int row = 0; row < dimensions && meetsRestrictions; row++) {
@@ -65,7 +65,7 @@ public class Futoshiki {
         return meetsRestrictions;
     }
 
-    private boolean checkUniquenessColumns() {
+    private boolean checkUniquenessColumns(int[][] board) {
         boolean meetsRestrictions = true;
 
         for (int column = 0; column < dimensions && meetsRestrictions; column++) {
@@ -86,17 +86,17 @@ public class Futoshiki {
         return meetsRestrictions;
     }
 
-    private boolean checkRelationsRestrictions() {
+    boolean checkRelationsRestrictions(int[][] board) {
         boolean meetsRestrictions = true;
 
         for (int i = 0; i < restrictions.size() && meetsRestrictions; i++) {
-            meetsRestrictions = checkRestriction(restrictions.get(i));
+            meetsRestrictions = checkRestriction(restrictions.get(i), board);
         }
 
         return meetsRestrictions;
     }
 
-    private boolean checkRestriction(Restriction restriction) {
+    private boolean checkRestriction(Restriction restriction, int[][] board) {
         int smallerValue = board[restriction.getRowSmaller()][restriction.getColumnSmaller()];
         int biggerValue = board[restriction.getRowBigger()][restriction.getColumnBigger()];
 
@@ -107,13 +107,12 @@ public class Futoshiki {
         return true;
     }
 
-    private int[][] itemsListToBoard(ArrayList<Integer> itemsList) {
+    private int[][] boardListToBoard(ArrayList<Integer> itemsList) {
         int[][] newBoard = new int[dimensions][dimensions];
 
         for (int row = 0; row < dimensions; row++) {
             for (int col = 0; col < dimensions; col++) {
                 newBoard[row][col] = itemsList.get(row * dimensions + col);
-                itemsList.remove(row * dimensions + col);
             }
         }
 
