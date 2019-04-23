@@ -77,7 +77,7 @@ class FileParser {
             while ((line = br.readLine()) != null) {
                 String[] relations = line.split(";");
 
-                Restriction restriction = new Restriction();
+                FutoshikiRestriction restriction = new FutoshikiRestriction();
 
                 restriction.setRowSmaller(getNumberFromChar(relations[0].charAt(0)) - 1);
                 restriction.setColumnSmaller(Character.getNumericValue(relations[0].charAt(1)) - 1);

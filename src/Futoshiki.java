@@ -5,7 +5,7 @@ import java.util.TreeSet;
 public class Futoshiki {
     private int[][] board;
     private int dimensions;
-    private ArrayList<Restriction> restrictions;
+    private ArrayList<FutoshikiRestriction> restrictions;
     private ArrayList<Integer> itemsList;
 
     Futoshiki(int dimensions) {
@@ -21,7 +21,7 @@ public class Futoshiki {
         return dimensions;
     }
 
-    void addRestriction(Restriction restriction) {
+    void addRestriction(FutoshikiRestriction restriction) {
         restrictions.add(restriction);
     }
 
@@ -96,7 +96,7 @@ public class Futoshiki {
         return meetsRestrictions;
     }
 
-    private boolean checkRestriction(Restriction restriction, int[][] board) {
+    private boolean checkRestriction(FutoshikiRestriction restriction, int[][] board) {
         int smallerValue = board[restriction.getRowSmaller()][restriction.getColumnSmaller()];
         int biggerValue = board[restriction.getRowBigger()][restriction.getColumnBigger()];
 
@@ -159,7 +159,7 @@ public class Futoshiki {
     String restrictionsToString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (Restriction restriction : restrictions) {
+        for (FutoshikiRestriction restriction : restrictions) {
             stringBuilder.append(restriction).append("\n");
         }
 

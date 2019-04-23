@@ -1,11 +1,11 @@
-public class Restriction {
+public class FutoshikiRestriction {
     private int rowSmaller;
     private int columnSmaller;
 
     private int rowBigger;
     private int columnBigger;
 
-    Restriction() {
+    FutoshikiRestriction() {
         this.rowSmaller = -1;
         this.columnSmaller = -1;
 
@@ -13,7 +13,7 @@ public class Restriction {
         this.columnBigger = -1;
     }
 
-    Restriction(int rowSmaller, int columnSmaller, int rowBigger, int columnBigger) {
+    FutoshikiRestriction(int rowSmaller, int columnSmaller, int rowBigger, int columnBigger) {
         this.rowSmaller = rowSmaller;
         this.columnSmaller = columnSmaller;
 
