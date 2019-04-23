@@ -25,8 +25,20 @@ public class Futoshiki {
         restrictions.add(restriction);
     }
 
-    boolean checkIfBoardMeetsRestrictions() {
-        return checkRelationsRestrictions() && checkUniquenessRestrictions();
+    boolean isCompleted(int[][] board) {
+        int zeros = 0;
+        for (int row = 0; row < dimensions; row++) {
+            for (int col = 0; col < dimensions; col++) {
+                if (board[row][col] == 0) {
+                    zeros++;
+                }
+            }
+        }
+        return zeros == 0 && checkIfBoardMeetsRestrictions(board);
+    }
+
+    boolean checkIfBoardMeetsRestrictions(int[][] board) {
+        return checkRelationsRestrictions(board) && checkUniquenessRestrictions(board);
     }
 
     private boolean checkUniquenessRestrictions() {
