@@ -96,7 +96,7 @@ public class Futoshiki {
         return true;
     }
 
-    private int[][] itemsListToBoard() {
+    private int[][] itemsListToBoard(ArrayList<Integer> itemsList) {
         int[][] newBoard = new int[dimensions][dimensions];
 
         for (int row = 0; row < dimensions; row++) {
@@ -109,7 +109,7 @@ public class Futoshiki {
         return newBoard;
     }
 
-    private ArrayList<Integer> boardToList() {
+    private ArrayList<Integer> boardToList(int[][] board) {
         ArrayList<Integer> newItemsList = new ArrayList<>();
 
         for (int row = 0; row < dimensions; row++) {
