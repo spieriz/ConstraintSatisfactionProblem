@@ -46,7 +46,6 @@ public class Futoshiki {
                 else
                     zeros++;
             }
-
             if (itemsSet.size() != dimensions - zeros) {
                 meetsRestrictions = false;
             }
@@ -129,5 +128,23 @@ public class Futoshiki {
         }
 
         return stringBuilder.toString();
+    }
+
+
+    String boardToString(int[][] board) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int row = 0; row < dimensions; row++) {
+            for (int col = 0; col < dimensions; col++) {
+                stringBuilder.append(board[row][col]).append(" ");
+            }
+            stringBuilder.append("\n");
+        }
+
+        return stringBuilder.toString();
+    }
+
+    int[][] getBoard() {
+        return board;
     }
 }
