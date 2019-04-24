@@ -6,8 +6,13 @@ public class Skyscraper {
     private int[] restrictionsBottom;
     private int[] restrictionsLeft;
 
-    Skyscraper(int dimensions){
+    private int[][] board;
+
+    Skyscraper(int dimensions) {
         this.dimensions = dimensions;
+        board = new int[dimensions][dimensions];
+
+        Arrays.fill(board, 0);
     }
 
     public int getDimensions() {
