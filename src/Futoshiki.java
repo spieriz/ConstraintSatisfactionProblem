@@ -124,7 +124,7 @@ public class Futoshiki {
     /**
      * Check if single relation condition is met
      * @param restriction - restriction (relation condition)
-     * @param board - board of integers
+     * @param board       - board of integers
      * @return - boolean
      */
     private boolean checkRestriction(FutoshikiRestriction restriction, int[][] board) {
@@ -205,6 +205,28 @@ public class Futoshiki {
 
         for (int i = 0; i < restrictionsArray.length; i++) {
             if (restrictionsArray[i] > restrictionsArray[index]) {
+                index = i;
+            }
+        }
+
+        return index;
+    }
+
+    int getLessRestricted() {
+        int index = 0;
+
+        int[] restrictionsArray = new int[dimensions * dimensions];
+
+        for (FutoshikiRestriction restriction : restrictions) {
+            int indexSmaller = restriction.getRowSmaller() * dimensions + restriction.getColumnSmaller();
+            int indexBigger = restriction.getRowBigger() * dimensions + restriction.getColumnBigger();
+
+            restrictionsArray[indexSmaller]++;
+            restrictionsArray[indexBigger]++;
+        }
+
+        for (int i = 0; i < restrictionsArray.length; i++) {
+            if (restrictionsArray[i] < restrictionsArray[index]) {
                 index = i;
             }
         }
