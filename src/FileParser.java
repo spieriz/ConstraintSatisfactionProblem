@@ -152,7 +152,11 @@ class FileParser {
         return result;
     }
 
-    public Futoshiki getFutoshiki(){
+    Futoshiki getFutoshiki(){
         return futoshiki;
+    }
+
+    Skyscraper getSkyscraper() {
+        return skyscraper;
     }
 }
