@@ -35,7 +35,6 @@ public class Skyscraper {
 
                 board = boardListToBoard(boardList);
 
-                System.out.println(boardToString(board));
                 if (checkUniquenessRestrictions(board) && !isCompleted(board)) {
                     board = calculateSkyscraperBacktracking(board, cell + 1);
                 }
