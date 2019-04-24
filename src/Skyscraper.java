@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Skyscraper {
     private int dimensions;
@@ -16,6 +18,52 @@ public class Skyscraper {
 
         Arrays.fill(board, 0);
     }
+
+    private boolean checkUniquenessRestrictions(int[][] board) {
+        return checkUniquenessRows(board) && checkUniquenessColumns(board);
+    }
+
+    private boolean checkUniquenessRows(int[][] board) {
+        boolean meetsRestrictions = true;
+
+        for (int row = 0; row < dimensions && meetsRestrictions; row++) {
+            Set<Integer> itemsSet = new TreeSet<>();
+            int zeros = 0;
+
+            for (int column = 0; column < dimensions; column++) {
+                if (board[row][column] != 0)
+                    itemsSet.add(board[row][column]);
+                else
+                    zeros++;
+            }
+            if (itemsSet.size() != dimensions - zeros) {
+                meetsRestrictions = false;
+            }
+        }
+        return meetsRestrictions;
+    }
+
+    private boolean checkUniquenessColumns(int[][] board) {
+        boolean meetsRestrictions = true;
+
+        for (int column = 0; column < dimensions && meetsRestrictions; column++) {
+            Set<Integer> itemsSet = new TreeSet<>();
+            int zeros = 0;
+
+            for (int row = 0; row < dimensions; row++) {
+                if (board[row][column] != 0)
+                    itemsSet.add(board[row][column]);
+                else
+                    zeros++;
+            }
+
+            if (itemsSet.size() != dimensions - zeros) {
+                meetsRestrictions = false;
+            }
+        }
+        return meetsRestrictions;
+    }
+
 
     int getDimensions() {
         return dimensions;
