@@ -67,7 +67,7 @@ public class Skyscraper {
                     visible++;
                 }
             }
-            if (restrictionsLeft[row] != 0 && visible != restrictionsLeft[row]) {
+            if (restrictionsRight[row] != 0 && visible != restrictionsRight[row]) {
                 meetRestrictions = false;
             }
         }
