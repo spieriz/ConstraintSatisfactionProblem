@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Skyscraper {
     private int dimensions;
 
@@ -15,24 +17,38 @@ public class Skyscraper {
         Arrays.fill(board, 0);
     }
 
-    public int getDimensions() {
+    int getDimensions() {
         return dimensions;
     }
 
+    void setBoard(int[][] board) {
+        this.board = board;
+    }
 
-    public void setRestrictionsTop(int[] restrictionsTop) {
+    int[][] getBoard() {
+        return board;
+    }
+
+    void setRestrictionsTop(int[] restrictionsTop) {
         this.restrictionsTop = restrictionsTop;
     }
 
-    public void setRestrictionsRight(int[] restrictionsRight) {
+    void setRestrictionsRight(int[] restrictionsRight) {
         this.restrictionsRight = restrictionsRight;
     }
 
-    public void setRestrictionsBottom(int[] restrictionsBottom) {
+    void setRestrictionsBottom(int[] restrictionsBottom) {
         this.restrictionsBottom = restrictionsBottom;
     }
 
-    public void setRestrictionsLeft(int[] restrictionsLeft) {
+    void setRestrictionsLeft(int[] restrictionsLeft) {
         this.restrictionsLeft = restrictionsLeft;
+    }
+
+    String getRestrictionsString() {
+        return "TOP: " + Arrays.toString(restrictionsTop) + "\n" +
+                "RIGHT: " + Arrays.toString(restrictionsRight) + "\n" +
+                "BOTTOM: " + Arrays.toString(restrictionsBottom) + "\n" +
+                "LEFT: " + Arrays.toString(restrictionsLeft) + "\n";
     }
 }
