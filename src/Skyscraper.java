@@ -23,6 +23,18 @@ public class Skyscraper {
         }
     }
 
+    boolean isCompleted(int[][] board) {
+        int zeros = 0;
+        for (int row = 0; row < dimensions; row++) {
+            for (int col = 0; col < dimensions; col++) {
+                if (board[row][col] == 0) {
+                    zeros++;
+                }
+            }
+        }
+        return zeros == 0 && checkIfBoardMeetsRestrictions(board);
+    }
+
     boolean checkIfBoardMeetsRestrictions(int[][] board) {
         return checkVisibilityRestrictions(board) && checkUniquenessRestrictions(board);
     }
