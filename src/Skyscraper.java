@@ -15,8 +15,82 @@ public class Skyscraper {
     Skyscraper(int dimensions) {
         this.dimensions = dimensions;
         board = new int[dimensions][dimensions];
+    }
 
-        Arrays.fill(board, 0);
+    void fillBoardWithZero() {
+        for (int i = 0; i < dimensions; i++) {
+            Arrays.fill(board[i], 0);
+        }
+    }
+
+    boolean checkIfBoardMeetsRestrictions(int[][] board) {
+        return checkVisibilityRestrictions(board) && checkUniquenessRestrictions(board);
+    }
+
+    private boolean checkVisibilityRestrictions(int[][] board) {
+        boolean meetRestrictions = true;
+
+        // top
+        for (int column = 0; column < dimensions && meetRestrictions; column++) {
+            int highest = board[0][column];
+            int visible = 1;
+            for (int row = 1; row < dimensions; row++) {
+                if (board[row][column] > highest) {
+                    highest = board[row][column];
+                    visible++;
+                }
+            }
+            if (restrictionsTop[column] != 0 && visible != restrictionsTop[column]) {
+                meetRestrictions = false;
+            }
+        }
+
+        // right
+        for (int row = 0; row < dimensions && meetRestrictions; row++) {
+            int highest = board[dimensions - 1][0];
+            int visible = 1;
+            for (int column = dimensions - 2; column >= 0; column--) {
+                if (board[row][column] > highest) {
+                    highest = board[row][column];
+                    visible++;
+                }
+            }
+            if (restrictionsLeft[row] != 0 && visible != restrictionsLeft[row]) {
+                meetRestrictions = false;
+            }
+        }
+
+        // bottom
+        for (int column = 0; column < dimensions && meetRestrictions; column++) {
+            int highest = board[dimensions - 1][column];
+            int visible = 1;
+            for (int row = dimensions - 2; row >= 0; row--) {
+                if (board[row][column] > highest) {
+                    highest = board[row][column];
+                    visible++;
+                }
+            }
+            if (restrictionsBottom[column] != 0 && visible != restrictionsBottom[column]) {
+                meetRestrictions = false;
+            }
+        }
+
+        // left
+        for (int row = 0; row < dimensions && meetRestrictions; row++) {
+            int highest = board[row][0];
+            int visible = 1;
+            for (int column = 1; column < dimensions; column++) {
+                if (board[row][column] > highest) {
+                    highest = board[row][column];
+                    visible++;
+                }
+            }
+            if (restrictionsLeft[row] != 0 && visible != restrictionsLeft[row]) {
+                meetRestrictions = false;
+            }
+        }
+
+        return meetRestrictions;
     }
 
     private boolean checkUniquenessRestrictions(int[][] board) {
