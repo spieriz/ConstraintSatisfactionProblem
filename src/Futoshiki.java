@@ -141,16 +141,15 @@ public class Futoshiki {
         for (int cell = currentIndex; cell < dimensions * dimensions && !isCompleted(board); cell++) {
 
             for (int value = 1; value <= dimensions && !isCompleted(board); value++) {
-                boardList.remove(currentIndex);
-                boardList.add(currentIndex, value);
+                boardList.remove(cell);
+                boardList.add(cell, value);
 
                 board = boardListToBoard(boardList);
 
                 if (checkIfBoardMeetsRestrictions(board) && !isCompleted(board)) {
-                    board = calculateFutoshikiBacktracking(board, currentIndex + 1);
+                    board = calculateFutoshikiBacktracking(board, cell + 1);
                 }
             }
-            currentIndex++;
         }
 
         return board;
