@@ -136,7 +136,7 @@ class FileParser {
             case "L":
                 skyscraper.setRestrictionsLeft(floors);
                 break;
-            case "R":
+            case "P":
                 skyscraper.setRestrictionsRight(floors);
                 break;
         }
