@@ -190,6 +190,28 @@ public class Futoshiki {
         return cell + 1 < dimensions * dimensions ? cell + 1 : 0;
     }
 
+    int getMostRestricted() {
+        int index = 0;
+
+        int[] restrictionsArray = new int[dimensions * dimensions];
+
+        for (FutoshikiRestriction restriction : restrictions) {
+            int indexSmaller = restriction.getRowSmaller() * dimensions + restriction.getColumnSmaller();
+            int indexBigger = restriction.getRowBigger() * dimensions + restriction.getColumnBigger();
+
+            restrictionsArray[indexSmaller]++;
+            restrictionsArray[indexBigger]++;
+        }
+
+        for (int i = 0; i < restrictionsArray.length; i++) {
+            if (restrictionsArray[i] > restrictionsArray[index]) {
+                index = i;
+            }
+        }
+
+        return index;
+    }
+
     String restrictionsToString() {
         StringBuilder stringBuilder = new StringBuilder();
 
