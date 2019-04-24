@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
@@ -23,6 +24,51 @@ public class Skyscraper {
         }
     }
 
+    int[][] calculateSkyscraperBacktracking(int[][] board, int currentIndex) {
+        ArrayList<Integer> boardList = boardToList(board);
+
+        for (int cell = currentIndex; cell < dimensions * dimensions && !isCompleted(board); cell++) {
+
+            for (int value = 1; value <= dimensions && !isCompleted(board); value++) {
+                boardList.remove(cell);
+                boardList.add(cell, value);
+
+                board = boardListToBoard(boardList);
+
+                System.out.println(boardToString(board));
+                if (checkUniquenessRestrictions(board) && !isCompleted(board)) {
+                    board = calculateSkyscraperBacktracking(board, cell + 1);
+                }
+            }
+        }
+
+        return board;
+    }
+
+    private int[][] boardListToBoard(ArrayList<Integer> itemsList) {
+        int[][] newBoard = new int[dimensions][dimensions];
+
+        for (int row = 0; row < dimensions; row++) {
+            for (int col = 0; col < dimensions; col++) {
+                newBoard[row][col] = itemsList.get(row * dimensions + col);
+            }
+        }
+
+        return newBoard;
+    }
+
+    private ArrayList<Integer> boardToList(int[][] board) {
+        ArrayList<Integer> newItemsList = new ArrayList<>();
+
+        for (int row = 0; row < dimensions; row++) {
+            for (int col = 0; col < dimensions; col++) {
+                newItemsList.add(board[row][col]);
+            }
+        }
+
+        return newItemsList;
+    }
+
     boolean isCompleted(int[][] board) {
         int zeros = 0;
         for (int row = 0; row < dimensions; row++) {
@@ -40,9 +86,15 @@ public class Skyscraper {
     }
 
     private boolean checkVisibilityRestrictions(int[][] board) {
+        return checkVisibilityRestrictionsTop(board) &&
+                checkVisibilityRestrictionsRight(board) &&
+                checkVisibilityRestrictionsBottom(board) &&
+                checkVisibilityRestrictionsLeft(board);
+    }
+
+    boolean checkVisibilityRestrictionsTop(int[][] board) {
         boolean meetRestrictions = true;
 
-        // top
         for (int column = 0; column < dimensions && meetRestrictions; column++) {
             int highest = board[0][column];
             int visible = 1;
@@ -57,7 +109,12 @@ public class Skyscraper {
             }
         }
 
-        // right
+        return meetRestrictions;
+    }
+
+    boolean checkVisibilityRestrictionsRight(int[][] board) {
+        boolean meetRestrictions = true;
+
         for (int row = 0; row < dimensions && meetRestrictions; row++) {
             int highest = board[dimensions - 1][0];
             int visible = 1;
@@ -72,7 +129,12 @@ public class Skyscraper {
             }
         }
 
-        // bottom
+        return meetRestrictions;
+    }
+
+    boolean checkVisibilityRestrictionsBottom(int[][] board) {
+        boolean meetRestrictions = true;
+
         for (int column = 0; column < dimensions && meetRestrictions; column++) {
             int highest = board[dimensions - 1][column];
             int visible = 1;
@@ -87,7 +149,12 @@ public class Skyscraper {
             }
         }
 
-        // left
+        return meetRestrictions;
+    }
+
+    boolean checkVisibilityRestrictionsLeft(int[][] board) {
+        boolean meetRestrictions = true;
+
         for (int row = 0; row < dimensions && meetRestrictions; row++) {
             int highest = board[row][0];
             int visible = 1;
@@ -184,5 +251,18 @@ public class Skyscraper {
                 "RIGHT: " + Arrays.toString(restrictionsRight) + "\n" +
                 "BOTTOM: " + Arrays.toString(restrictionsBottom) + "\n" +
                 "LEFT: " + Arrays.toString(restrictionsLeft) + "\n";
+    }
+
+    String boardToString(int[][] board) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int row = 0; row < dimensions; row++) {
+            for (int col = 0; col < dimensions; col++) {
+                stringBuilder.append(board[row][col]).append(" ");
+            }
+            stringBuilder.append("\n");
+        }
+
+        return stringBuilder.toString();
     }
 }
