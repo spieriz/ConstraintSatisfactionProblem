@@ -25,6 +25,11 @@ public class Futoshiki {
         restrictions.add(restriction);
     }
 
+    /**
+     * Check if board is completed (all fields are set and all conditions has been met)
+     * @param board - board of integers
+     * @return - boolean
+     */
     boolean isCompleted(int[][] board) {
         int zeros = 0;
         for (int row = 0; row < dimensions; row++) {
@@ -41,10 +46,20 @@ public class Futoshiki {
         return checkRelationsRestrictions(board) && checkUniquenessRestrictions(board);
     }
 
+    /**
+     * Check if board match to uniqueness restrictions (unique values in rows an columns)
+     * @param board - board of integers
+     * @return - boolean
+     */
     private boolean checkUniquenessRestrictions(int[][] board) {
         return checkUniquenessRows(board) && checkUniquenessColumns(board);
     }
 
+    /**
+     * Check if all rows contains only unique values (ignore zeros)
+     * @param board - board of integers
+     * @return - boolean
+     */
     private boolean checkUniquenessRows(int[][] board) {
         boolean meetsRestrictions = true;
 
@@ -65,6 +80,11 @@ public class Futoshiki {
         return meetsRestrictions;
     }
 
+    /**
+     * Check if all columns contains only unique values (ignore zeros)
+     * @param board - board of integers
+     * @return - boolean
+     */
     private boolean checkUniquenessColumns(int[][] board) {
         boolean meetsRestrictions = true;
 
@@ -86,6 +106,11 @@ public class Futoshiki {
         return meetsRestrictions;
     }
 
+    /**
+     * Check if all relation conditions are met
+     * @param board - board of integers
+     * @return - boolean
+     */
     boolean checkRelationsRestrictions(int[][] board) {
         boolean meetsRestrictions = true;
 
@@ -96,6 +121,12 @@ public class Futoshiki {
         return meetsRestrictions;
     }
 
+    /**
+     * Check if single relation condition is met
+     * @param restriction - restriction (relation condition)
+     * @param board - board of integers
+     * @return - boolean
+     */
     private boolean checkRestriction(FutoshikiRestriction restriction, int[][] board) {
         int smallerValue = board[restriction.getRowSmaller()][restriction.getColumnSmaller()];
         int biggerValue = board[restriction.getRowBigger()][restriction.getColumnBigger()];
