@@ -178,12 +178,16 @@ public class Futoshiki {
                 board = boardListToBoard(boardList);
 
                 if (checkIfBoardMeetsRestrictions(board) && !isCompleted(board)) {
-                    board = calculateFutoshikiBacktracking(board, cell + 1);
+                    board = calculateFutoshikiBacktracking(board, nextCell(cell));
                 }
             }
         }
 
         return board;
+    }
+
+    private int nextCell(int cell) {
+        return cell + 1 < dimensions * dimensions ? cell + 1 : 0;
     }
 
     String restrictionsToString() {
