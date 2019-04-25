@@ -21,6 +21,8 @@ public class Futoshiki {
     private Map<Integer, Boolean> smallerMap;
     private Map<Integer, Boolean> biggerMap;
 
+    int recursiveCounter = 0;
+
     Futoshiki(int dimensions) {
         this.dimensions = dimensions;
         restrictions = new ArrayList<>();
@@ -440,6 +442,7 @@ public class Futoshiki {
 
                 if (checkIfDomainMeetsRestrictions(generateDomains(board)) && checkIfBoardMeetsRestrictions(board) && !isCompleted(board)) {
                     //System.out.println(boardToString(board));
+                    recursiveCounter++;
                     board = calculateFutoshikiForwardChecking(board, nextCell(cell));
                 }
             }
@@ -464,6 +467,7 @@ public class Futoshiki {
                 board = boardListToBoard(boardList);
 
                 if (checkIfBoardMeetsRestrictions(board) && !isCompleted(board)) {
+                    recursiveCounter++;
                     board = calculateFutoshikiBacktracking(board, nextCell(cell));
                 }
             }
