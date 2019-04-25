@@ -6,8 +6,20 @@ public class Futoshiki {
     private ArrayList<FutoshikiRestriction> restrictions;
     private ArrayList<Integer> itemsList;
 
+    /*
+    Key - ID of the element which is smaller than its values
+    Value - List of IDs of elements which are bigger than Key
+     */
     private Map<Integer, ArrayList<Integer>> relationSmallerMap;
+
+    /*
+    Key - ID of the element which is bigger than its values
+    Value - List of IDs of elements which are smaller than Key
+    */
     private Map<Integer, ArrayList<Integer>> relationBiggerMap;
+
+    private Map<Integer, Boolean> smallerMap;
+    private Map<Integer, Boolean> biggerMap;
 
     Futoshiki(int dimensions) {
         this.dimensions = dimensions;
@@ -78,15 +90,13 @@ public class Futoshiki {
     }
 
     /**
-     * Get map of elements which are smaller than other (relation rule)
+     * Get map of elements which are smaller than key element (relation rule)
      * <Integer, Boolean>
      * Integer - index of an element in board
      * Boolean: true if smaller than other, false if not
-     *
-     * @return - Map<Integer, Boolean>
      */
-    private Map<Integer, Boolean> getRestrictionSmallerMap() {
-        Map<Integer, Boolean> smallerMap = new HashMap<Integer, Boolean>();
+    void generateRestrictionSmallerMap() {
+        Map<Integer, Boolean> smallerMap = new HashMap<>();
         for (int i = 0; i < dimensions * dimensions; i++) {
             smallerMap.put(i, false);
         }
@@ -95,19 +105,17 @@ public class Futoshiki {
             smallerMap.put(restriction.getRowSmaller() * dimensions + restriction.getColumnSmaller(), true);
         }
 
-        return smallerMap;
+        this.smallerMap = smallerMap;
     }
 
     /**
-     * Get map of elements which are bigger than other (relation rule)
+     * Get map of elements which are bigger than key element (relation rule)
      * <Integer, Boolean>
      * Integer - index of an element in board
      * Boolean: true if bigger than other, false if not
-     *
-     * @return - Map<Integer, Boolean>
      */
-    private Map<Integer, Boolean> getRestrictionBiggerMap() {
-        Map<Integer, Boolean> biggerMap = new HashMap<Integer, Boolean>();
+    void generateRestrictionBiggerMap() {
+        Map<Integer, Boolean> biggerMap = new HashMap<>();
         for (int i = 0; i < dimensions * dimensions; i++) {
             biggerMap.put(i, false);
         }
@@ -116,7 +124,7 @@ public class Futoshiki {
             biggerMap.put(restriction.getRowBigger() * dimensions + restriction.getColumnBigger(), true);
         }
 
-        return biggerMap;
+        this.biggerMap = biggerMap;
     }
 
     /**
@@ -199,22 +207,27 @@ public class Futoshiki {
      * @param globalMax - global maximum value in domain
      * @return - ArrayList<ArrayList<Integer>> - list of domains
      */
-    ArrayList<ArrayList<Integer>> generateDomains(int globalMin, int globalMax) {
+    ArrayList<ArrayList<Integer>> generateDomains(int[][] board, int globalMin, int globalMax) {
         ArrayList<ArrayList<Integer>> domainsList = new ArrayList<>();
 
-        Map smallerMap = getRestrictionSmallerMap();
-        Map biggerMap = getRestrictionBiggerMap();
+        ArrayList<Integer> boardList = boardToList(board);
 
         for (int i = 0; i < dimensions * dimensions; i++) {
             int localMin = globalMin;
             int localMax = globalMax;
 
-            if ((boolean) smallerMap.get(i)) {
-                localMax--;
-            }
+            // if element is unset
+            if (boardList.get(i) == 0) {
+                ArrayList<Integer> elementRelationsSmaller = this.relationSmallerMap.get(i);
+                ArrayList<Integer> elementRelationsBigger = this.relationBiggerMap.get(i);
 
-            if ((boolean) biggerMap.get(i)) {
-                localMin++;
+                localMin = getSmallestDomainValue(board, elementRelationsBigger, i);
+                localMax = getBiggestDomainValue(board, elementRelationsSmaller, i);
+
+                System.out.println("id: " + i + " min: " + localMin + " max: " + localMax);
+            } else {
+                localMin = boardList.get(i);
+                localMax = boardList.get(i);
             }
 
             domainsList.add(generateSingleDomain(localMin, localMax));
@@ -367,6 +380,7 @@ public class Futoshiki {
 
     /**
      * Convert arrayList to board (int[][] array)
+     *
      * @param itemsList - array list with elements of board
      * @return - int[][] board
      */
@@ -384,6 +398,7 @@ public class Futoshiki {
 
     /**
      * Convert board (int[][] array) to arrayList
+     *
      * @param board - int[][] board
      * @return - ArrayList
      */
@@ -429,6 +444,7 @@ public class Futoshiki {
 
     /**
      * Calculate index of next cell (prevents out of bound exception when starting from other place than 0)
+     *
      * @param cell - current cell index
      * @return - next cell index
      */
