@@ -430,20 +430,19 @@ public class Futoshiki {
             currentIndex++;
         }
 
-        for (int cell = currentIndex; cell < dimensions * dimensions && !isCompleted(board); cell++) {
+        if (!isCompleted(board)) {
 
             for (int value = 1; value <= dimensions && !isCompleted(board); value++) {
-                boardList.remove(cell);
-                boardList.add(cell, value);
+                boardList.remove(currentIndex);
+                boardList.add(currentIndex, value);
 
                 board = boardListToBoard(boardList);
                 //System.out.println(boardToString(board));
                 //ArrayList<ArrayList<Integer>> domainList = generateDomains(board);
 
                 if (checkIfBoardMeetsRestrictions(board) && checkIfDomainMeetsRestrictions(generateDomains(board)) && !isCompleted(board)) {
-                    //System.out.println(boardToString(board));
                     recursiveCounter++;
-                    board = calculateFutoshikiForwardChecking(board, nextCell(cell));
+                    board = calculateFutoshikiForwardChecking(board, nextCellMostRestricted(board, currentIndex));
                 }
             }
         }
@@ -458,17 +457,17 @@ public class Futoshiki {
             currentIndex++;
         }
 
-        for (int cell = currentIndex; cell < dimensions * dimensions && !isCompleted(board); cell++) {
+        if (!isCompleted(board)) {
 
             for (int value = 1; value <= dimensions && !isCompleted(board); value++) {
-                boardList.remove(cell);
-                boardList.add(cell, value);
+                boardList.remove(currentIndex);
+                boardList.add(currentIndex, value);
 
                 board = boardListToBoard(boardList);
 
                 if (checkIfBoardMeetsRestrictions(board) && !isCompleted(board)) {
                     recursiveCounter++;
-                    board = calculateFutoshikiBacktracking(board, nextCell(cell));
+                    board = calculateFutoshikiBacktracking(board, nextCell(currentIndex));
                 }
             }
         }
