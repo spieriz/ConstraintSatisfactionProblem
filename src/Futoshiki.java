@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class Futoshiki {
     private int[][] board;
@@ -23,6 +21,116 @@ public class Futoshiki {
 
     void addRestriction(FutoshikiRestriction restriction) {
         restrictions.add(restriction);
+    }
+
+    /**
+     * Generate domain for single element - array based on min and max
+     * @param min - minimum value in domain
+     * @param max - maximum value in domain
+     * @return - ArrayList<Integer> - domain of the element
+     */
+    private ArrayList<Integer> generateSingleDomain(int min, int max) {
+        ArrayList<Integer> domain = new ArrayList<>();
+        for (int i = min; i <= max; i++) {
+            domain.add(i);
+        }
+        return domain;
+    }
+
+    /**
+     * Get map of elements which are smaller than other (relation rule)
+     * <Integer, Boolean>
+     * Integer - index of an element in board
+     * Boolean: true if smaller than other, false if not
+     * @return - Map<Integer, Boolean>
+     */
+    private Map<Integer, Boolean> getRestrictionSmallerMap() {
+        Map<Integer, Boolean> smallerMap = new HashMap<Integer, Boolean>();
+        for (int i = 0; i < dimensions * dimensions; i++) {
+            smallerMap.put(i, false);
+        }
+
+        for (FutoshikiRestriction restriction : restrictions) {
+            smallerMap.put(restriction.getRowSmaller() * dimensions + restriction.getColumnSmaller(), true);
+        }
+
+        return smallerMap;
+    }
+
+    /**
+     * Get map of elements which are bigger than other (relation rule)
+     * <Integer, Boolean>
+     * Integer - index of an element in board
+     * Boolean: true if bigger than other, false if not
+     * @return - Map<Integer, Boolean>
+     */
+    private Map<Integer, Boolean> getRestrictionBiggerMap() {
+        Map<Integer, Boolean> biggerMap = new HashMap<Integer, Boolean>();
+        for (int i = 0; i < dimensions * dimensions; i++) {
+            biggerMap.put(i, false);
+        }
+
+        for (FutoshikiRestriction restriction : restrictions) {
+            biggerMap.put(restriction.getRowBigger() * dimensions + restriction.getColumnBigger(), true);
+        }
+
+        return biggerMap;
+    }
+
+    /**
+     * Generate domains of all elements in the board.
+     * Structure: ArrayList< #index of the element in the board
+     *              ArrayList<Integer> #list with domain of the element
+     *            >
+     * @param globalMin - global minimum value in domain
+     * @param globalMax - global maximum value in domain
+     * @return - ArrayList<ArrayList<Integer>> - list of domains
+     */
+    ArrayList<ArrayList<Integer>> generateDomains(int globalMin, int globalMax) {
+        ArrayList<ArrayList<Integer>> domainsList = new ArrayList<>();
+
+        Map smallerMap = getRestrictionSmallerMap();
+        Map biggerMap = getRestrictionBiggerMap();
+
+        for (int i = 0; i < dimensions * dimensions; i++) {
+            int localMin = globalMin;
+            int localMax = globalMax;
+
+            if ((boolean) smallerMap.get(i)) {
+                localMax--;
+            }
+
+            if ((boolean) biggerMap.get(i)) {
+                localMin++;
+            }
+
+            domainsList.add(generateSingleDomain(localMin, localMax));
+        }
+
+        return domainsList;
+    }
+
+    String printDomains(ArrayList<ArrayList<Integer>> domainsList) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        int iterator = 0;
+
+        for (ArrayList<Integer> domain : domainsList) {
+            if (domain.size() > 1){
+                stringBuilder.append(domain.get(0)).append("-").append(domain.get(domain.size() - 1));
+            } else if (domain.size() == 1) {
+                stringBuilder.append(" ").append(domain.get(0)).append(" ");
+            } else {
+                stringBuilder.append(" # ");
+            }
+            stringBuilder.append(" ");
+            iterator++;
+            if (iterator % dimensions == 0) {
+                stringBuilder.append("\n");
+            }
+        }
+
+        return stringBuilder.toString();
     }
 
     /**
