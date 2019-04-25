@@ -234,7 +234,7 @@ public class Futoshiki {
                 localMin = getSmallestDomainValue(board, elementRelationsBigger, i);
                 localMax = getBiggestDomainValue(board, elementRelationsSmaller, i);
 
-                System.out.println("id: " + i + " min: " + localMin + " max: " + localMax);
+                //System.out.println("id: " + i + " min: " + localMin + " max: " + localMax);
             } else {
                 localMin = boardList.get(i);
                 localMax = boardList.get(i);
@@ -424,8 +424,29 @@ public class Futoshiki {
         return newItemsList;
     }
 
-    void calculateFutoshikiForwardChecking(int[][] board, int currentIndex) {
+    int[][] calculateFutoshikiForwardChecking(int[][] board, int currentIndex) {
+        ArrayList<Integer> boardList = boardToList(board);
 
+        while (boardList.get(currentIndex) != 0) {
+            currentIndex++;
+        }
+
+        for (int cell = currentIndex; cell < dimensions * dimensions && !isCompleted(board); cell++) {
+
+            for (int value = 1; value <= dimensions && !isCompleted(board); value++) {
+                boardList.remove(cell);
+                boardList.add(cell, value);
+
+                board = boardListToBoard(boardList);
+                ArrayList<ArrayList<Integer>> domainList = generateDomains(board);
+
+                if (checkIfDomainMeetsRestrictions(domainList) && !isCompleted(board)) {
+                    board = calculateFutoshikiBacktracking(board, nextCell(cell));
+                }
+            }
+        }
+
+        return board;
     }
 
     int[][] calculateFutoshikiBacktracking(int[][] board, int currentIndex) {
