@@ -228,11 +228,8 @@ public class Futoshiki {
 
             // if element is unset
             if (boardList.get(i) == 0) {
-                ArrayList<Integer> elementRelationsSmaller = this.relationSmallerMap.get(i);
-                ArrayList<Integer> elementRelationsBigger = this.relationBiggerMap.get(i);
-
-                localMin = getSmallestDomainValue(board, elementRelationsBigger, i);
-                localMax = getBiggestDomainValue(board, elementRelationsSmaller, i);
+                localMin = getSmallestDomainValue(board, relationBiggerMap.get(i), i);
+                localMax = getBiggestDomainValue(board, relationSmallerMap.get(i), i);
 
                 //System.out.println("id: " + i + " min: " + localMin + " max: " + localMax);
             } else {
@@ -438,10 +435,12 @@ public class Futoshiki {
                 boardList.add(cell, value);
 
                 board = boardListToBoard(boardList);
-                ArrayList<ArrayList<Integer>> domainList = generateDomains(board);
+                //System.out.println(boardToString(board));
+                //ArrayList<ArrayList<Integer>> domainList = generateDomains(board);
 
-                if (checkIfDomainMeetsRestrictions(domainList) && !isCompleted(board)) {
-                    board = calculateFutoshikiBacktracking(board, nextCell(cell));
+                if (checkIfDomainMeetsRestrictions(generateDomains(board)) && checkIfBoardMeetsRestrictions(board) && !isCompleted(board)) {
+                    //System.out.println(boardToString(board));
+                    board = calculateFutoshikiForwardChecking(board, nextCell(cell));
                 }
             }
         }
