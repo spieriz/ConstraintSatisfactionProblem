@@ -197,6 +197,18 @@ public class Futoshiki {
         return value;
     }
 
+    boolean checkIfDomainMeetsRestrictions(ArrayList<ArrayList<Integer>> domainsList) {
+        boolean meetRestrictions = true;
+
+        for (int i = 0; i < domainsList.size() && meetRestrictions; i++) {
+            if (domainsList.get(i).isEmpty()) {
+                meetRestrictions = false;
+            }
+        }
+
+        return meetRestrictions;
+    }
+
     /**
      * Generate domains of all elements in the board.
      * Structure: ArrayList< #index of the element in the board
