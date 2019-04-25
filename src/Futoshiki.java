@@ -120,6 +120,76 @@ public class Futoshiki {
     }
 
     /**
+     * Calculate minimum value of an element, based on it's neighbours (smaller than it)
+     *
+     * @param board       - int[][]
+     * @param elementsIDs - ArrayList of ID of elements which are smaller than current checking element
+     * @return - minimum value in element's domain
+     */
+    private int getSmallestDomainValue(int[][] board, ArrayList<Integer> elementsIDs, int currentElementID) {
+        int value = 1;
+
+        int countZeros = 0;
+        for (int id : elementsIDs) {
+            if (board[id / dimensions][id % dimensions] == 0) {
+                countZeros++;
+            }
+        }
+
+        // If all neighbours are not set yet (value=0) and there are relations with them
+        if (countZeros == elementsIDs.size() && biggerMap.get(currentElementID))
+            return value + 1;
+            // If all neighbours are not set yet (value=0) but there are no relations with them
+        else if (countZeros == elementsIDs.size())
+            return value;
+
+        // If some of neighbours are set and there are relations with them
+        for (int id : elementsIDs) {
+            int elementValue = board[id / dimensions][id % dimensions];
+            if (elementValue >= value && elementValue != 0) {
+                value = elementValue + 1;
+                // +1 because element have to be bigger, not equal
+            }
+        }
+        return value;
+    }
+
+    /**
+     * Calculate maximum value of an element, based on it's neighbours (smaller than it)
+     *
+     * @param board       - int[][]
+     * @param elementsIDs - ArrayList of ID of elements which are bigger than current checking element
+     * @return - maximum value in element's domain
+     */
+    private int getBiggestDomainValue(int[][] board, ArrayList<Integer> elementsIDs, int currentElementID) {
+        int value = dimensions;
+
+        int countZeros = 0;
+        for (int id : elementsIDs) {
+            if (board[id / dimensions][id % dimensions] == 0) {
+                countZeros++;
+            }
+        }
+
+        // If all neighbours are not set yet (value=0) and there are relations with them
+        if (countZeros == elementsIDs.size() && smallerMap.get(currentElementID))
+            return value - 1;
+            // If all neighbours are not set yet (value=0) but there are no relations with them
+        else if (countZeros == elementsIDs.size())
+            return value;
+
+        // If some of neighbours are set and there are relations with them
+        for (int id : elementsIDs) {
+            int elementValue = board[id / dimensions][id % dimensions];
+            if (elementValue <= value && elementValue != 0) {
+                value = elementValue - 1;
+                // -1 because element have to be smaller, not equal
+            }
+        }
+        return value;
+    }
+
+    /**
      * Generate domains of all elements in the board.
      * Structure: ArrayList< #index of the element in the board
      * ArrayList<Integer> #list with domain of the element
