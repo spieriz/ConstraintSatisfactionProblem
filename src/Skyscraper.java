@@ -24,6 +24,40 @@ public class Skyscraper {
         }
     }
 
+    private int getMaxValue(int index){
+        int row = index / dimensions;
+        int column = index % dimensions;
+
+        int maxTop = dimensions - (restrictionsTop[column] - (row + 1));
+        int maxRight = dimensions - (restrictionsRight[row] - (dimensions - (column )));
+        int maxBottom = dimensions - (restrictionsBottom[column] - (dimensions - (row)));
+        int maxLeft = dimensions - (restrictionsLeft[row] - (column + 1));
+
+        return Math.min(Math.min(Math.min(maxTop, maxRight), Math.min(maxBottom, maxLeft)), dimensions);
+    }
+
+    ArrayList<Integer> generateDomains() {
+        ArrayList<Integer> domainsList = new ArrayList<>();
+
+        for (int i = 0; i < dimensions * dimensions; i++) {
+            domainsList.add(getMaxValue(i));
+        }
+
+        return domainsList;
+    }
+
+    String printDomain(ArrayList<Integer> domain) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 1; i <= domain.size(); i++) {
+            stringBuilder.append(domain.get(i - 1)).append(" ");
+            if (i % dimensions == 0)
+                stringBuilder.append("\n");
+        }
+
+        return stringBuilder.toString();
+    }
+
     int[][] calculateSkyscraperBacktracking(int[][] board, int currentIndex) {
         ArrayList<Integer> boardList = boardToList(board);
 
