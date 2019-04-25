@@ -6,6 +6,9 @@ public class Futoshiki {
     private ArrayList<FutoshikiRestriction> restrictions;
     private ArrayList<Integer> itemsList;
 
+    private Map<Integer, ArrayList<Integer>> relationSmallerMap;
+    private Map<Integer, ArrayList<Integer>> relationBiggerMap;
+
     Futoshiki(int dimensions) {
         this.dimensions = dimensions;
         restrictions = new ArrayList<>();
@@ -24,7 +27,64 @@ public class Futoshiki {
     }
 
     /**
+     * Create and assign map of relation (smaller -> bigger)
+     */
+    void createRelationsSmallerMap() {
+        Map<Integer, ArrayList<Integer>> relationSmallerMap = new HashMap<>();
+
+        for (int i = 0; i < dimensions * dimensions; i++) {
+            relationSmallerMap.put(i, new ArrayList<>());
+        }
+
+        for (FutoshikiRestriction restriction : restrictions) {
+            relationSmallerMap.get(restriction.getRowSmaller() * dimensions + restriction.getColumnSmaller())
+                    .add(restriction.getRowBigger() * dimensions + restriction.getColumnBigger());
+        }
+
+        this.relationSmallerMap = relationSmallerMap;
+    }
+
+    /**
+     * Create and assign map of relation (smaller -> bigger)
+     */
+    void createRelationsBiggerMap() {
+        Map<Integer, ArrayList<Integer>> relationBiggerMap = new HashMap<>();
+
+        for (int i = 0; i < dimensions * dimensions; i++) {
+            relationBiggerMap.put(i, new ArrayList<>());
+        }
+
+        for (FutoshikiRestriction restriction : restrictions) {
+            relationBiggerMap.get(restriction.getRowBigger() * dimensions + restriction.getColumnBigger())
+                    .add(restriction.getRowSmaller() * dimensions + restriction.getColumnSmaller());
+        }
+
+        this.relationBiggerMap = relationBiggerMap;
+    }
+
+    String printRelationsSmallerMap() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        this.relationSmallerMap.forEach((k, v) -> {
+            stringBuilder.append(k.toString()).append(": ").append(v.toString()).append("\n");
+        });
+
+        return stringBuilder.toString();
+    }
+
+    String printRelationsBiggerMap() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        this.relationBiggerMap.forEach((k, v) -> {
+            stringBuilder.append(k.toString()).append(": ").append(v.toString()).append("\n");
+        });
+
+        return stringBuilder.toString();
+    }
+
+    /**
      * Generate domain for single element - array based on min and max
+     *
      * @param min - minimum value in domain
      * @param max - maximum value in domain
      * @return - ArrayList<Integer> - domain of the element
@@ -42,6 +102,7 @@ public class Futoshiki {
      * <Integer, Boolean>
      * Integer - index of an element in board
      * Boolean: true if smaller than other, false if not
+     *
      * @return - Map<Integer, Boolean>
      */
     private Map<Integer, Boolean> getRestrictionSmallerMap() {
@@ -62,6 +123,7 @@ public class Futoshiki {
      * <Integer, Boolean>
      * Integer - index of an element in board
      * Boolean: true if bigger than other, false if not
+     *
      * @return - Map<Integer, Boolean>
      */
     private Map<Integer, Boolean> getRestrictionBiggerMap() {
@@ -80,8 +142,9 @@ public class Futoshiki {
     /**
      * Generate domains of all elements in the board.
      * Structure: ArrayList< #index of the element in the board
-     *              ArrayList<Integer> #list with domain of the element
-     *            >
+     * ArrayList<Integer> #list with domain of the element
+     * >
+     *
      * @param globalMin - global minimum value in domain
      * @param globalMax - global maximum value in domain
      * @return - ArrayList<ArrayList<Integer>> - list of domains
@@ -116,12 +179,12 @@ public class Futoshiki {
         int iterator = 0;
 
         for (ArrayList<Integer> domain : domainsList) {
-            if (domain.size() > 1){
+            if (domain.size() > 1) {
                 stringBuilder.append(domain.get(0)).append("-").append(domain.get(domain.size() - 1));
             } else if (domain.size() == 1) {
                 stringBuilder.append(" ").append(domain.get(0)).append(" ");
             } else {
-                stringBuilder.append(" # ");
+                stringBuilder.append(" X ");
             }
             stringBuilder.append(" ");
             iterator++;
