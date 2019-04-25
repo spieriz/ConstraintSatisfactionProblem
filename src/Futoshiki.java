@@ -440,7 +440,7 @@ public class Futoshiki {
                 //System.out.println(boardToString(board));
                 //ArrayList<ArrayList<Integer>> domainList = generateDomains(board);
 
-                if (checkIfDomainMeetsRestrictions(generateDomains(board)) && checkIfBoardMeetsRestrictions(board) && !isCompleted(board)) {
+                if (checkIfBoardMeetsRestrictions(board) && checkIfDomainMeetsRestrictions(generateDomains(board)) && !isCompleted(board)) {
                     //System.out.println(boardToString(board));
                     recursiveCounter++;
                     board = calculateFutoshikiForwardChecking(board, nextCell(cell));
