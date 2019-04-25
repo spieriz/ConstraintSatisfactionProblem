@@ -62,26 +62,6 @@ public class Futoshiki {
         this.relationBiggerMap = relationBiggerMap;
     }
 
-    String printRelationsSmallerMap() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        this.relationSmallerMap.forEach((k, v) -> {
-            stringBuilder.append(k.toString()).append(": ").append(v.toString()).append("\n");
-        });
-
-        return stringBuilder.toString();
-    }
-
-    String printRelationsBiggerMap() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        this.relationBiggerMap.forEach((k, v) -> {
-            stringBuilder.append(k.toString()).append(": ").append(v.toString()).append("\n");
-        });
-
-        return stringBuilder.toString();
-    }
-
     /**
      * Generate domain for single element - array based on min and max
      *
@@ -198,6 +178,7 @@ public class Futoshiki {
 
     /**
      * Check if board is completed (all fields are set and all conditions has been met)
+     *
      * @param board - board of integers
      * @return - boolean
      */
@@ -219,6 +200,7 @@ public class Futoshiki {
 
     /**
      * Check if board match to uniqueness restrictions (unique values in rows an columns)
+     *
      * @param board - board of integers
      * @return - boolean
      */
@@ -228,6 +210,7 @@ public class Futoshiki {
 
     /**
      * Check if all rows contains only unique values (ignore zeros)
+     *
      * @param board - board of integers
      * @return - boolean
      */
@@ -253,6 +236,7 @@ public class Futoshiki {
 
     /**
      * Check if all columns contains only unique values (ignore zeros)
+     *
      * @param board - board of integers
      * @return - boolean
      */
@@ -279,6 +263,7 @@ public class Futoshiki {
 
     /**
      * Check if all relation conditions are met
+     *
      * @param board - board of integers
      * @return - boolean
      */
@@ -294,6 +279,7 @@ public class Futoshiki {
 
     /**
      * Check if single relation condition is met
+     *
      * @param restriction - restriction (relation condition)
      * @param board       - board of integers
      * @return - boolean
@@ -309,6 +295,11 @@ public class Futoshiki {
         return true;
     }
 
+    /**
+     * Convert arrayList to board (int[][] array)
+     * @param itemsList - array list with elements of board
+     * @return - int[][] board
+     */
     private int[][] boardListToBoard(ArrayList<Integer> itemsList) {
         int[][] newBoard = new int[dimensions][dimensions];
 
@@ -321,6 +312,11 @@ public class Futoshiki {
         return newBoard;
     }
 
+    /**
+     * Convert board (int[][] array) to arrayList
+     * @param board - int[][] board
+     * @return - ArrayList
+     */
     private ArrayList<Integer> boardToList(int[][] board) {
         ArrayList<Integer> newItemsList = new ArrayList<>();
 
@@ -331,6 +327,10 @@ public class Futoshiki {
         }
 
         return newItemsList;
+    }
+
+    void calculateFutoshikiForwardChecking(int[][] board, int currentIndex) {
+
     }
 
     int[][] calculateFutoshikiBacktracking(int[][] board, int currentIndex) {
@@ -357,10 +357,18 @@ public class Futoshiki {
         return board;
     }
 
+    /**
+     * Calculate index of next cell (prevents out of bound exception when starting from other place than 0)
+     * @param cell - current cell index
+     * @return - next cell index
+     */
     private int nextCell(int cell) {
         return cell + 1 < dimensions * dimensions ? cell + 1 : 0;
     }
 
+    /**
+     * @return - index of most restricted element
+     */
     int getMostRestricted() {
         int index = 0;
 
@@ -383,6 +391,9 @@ public class Futoshiki {
         return index;
     }
 
+    /**
+     * @return - index of less restricted element
+     */
     int getLessRestricted() {
         int index = 0;
 
@@ -425,6 +436,24 @@ public class Futoshiki {
             }
             stringBuilder.append("\n");
         }
+
+        return stringBuilder.toString();
+    }
+
+    String printRelationsSmallerMap() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        this.relationSmallerMap.forEach((k, v) ->
+                stringBuilder.append(k.toString()).append(": ").append(v.toString()).append("\n"));
+
+        return stringBuilder.toString();
+    }
+
+    String printRelationsBiggerMap() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        this.relationBiggerMap.forEach((k, v) ->
+                stringBuilder.append(k.toString()).append(": ").append(v.toString()).append("\n"));
 
         return stringBuilder.toString();
     }
