@@ -203,18 +203,16 @@ public class Futoshiki {
      * ArrayList<Integer> #list with domain of the element
      * >
      *
-     * @param globalMin - global minimum value in domain
-     * @param globalMax - global maximum value in domain
      * @return - ArrayList<ArrayList<Integer>> - list of domains
      */
-    ArrayList<ArrayList<Integer>> generateDomains(int[][] board, int globalMin, int globalMax) {
+    ArrayList<ArrayList<Integer>> generateDomains(int[][] board) {
         ArrayList<ArrayList<Integer>> domainsList = new ArrayList<>();
 
         ArrayList<Integer> boardList = boardToList(board);
 
         for (int i = 0; i < dimensions * dimensions; i++) {
-            int localMin = globalMin;
-            int localMax = globalMax;
+            int localMin;
+            int localMax;
 
             // if element is unset
             if (boardList.get(i) == 0) {
