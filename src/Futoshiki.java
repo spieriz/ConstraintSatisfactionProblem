@@ -486,6 +486,26 @@ public class Futoshiki {
         return cell + 1 < dimensions * dimensions ? cell + 1 : 0;
     }
 
+    private int nextCellMostRestricted(int[][] board, int current) {
+        ArrayList<ArrayList<Integer>> domains = generateDomains(board);
+
+        ArrayList<Integer> boardList = boardToList(board);
+
+        int idSmallest = 0;
+
+        for (int i = 0; i < domains.size(); i++) {
+            if (domains.get(i).size() < domains.get(idSmallest).size() && boardList.get(i) == 0) {
+                idSmallest = i;
+            }
+        }
+
+        if (idSmallest == current) {
+            idSmallest++;
+        }
+
+        return idSmallest;
+    }
+
     /**
      * @return - index of most restricted element
      */
