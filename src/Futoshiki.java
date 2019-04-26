@@ -470,10 +470,12 @@ public class Futoshiki {
                 //System.out.println(boardToString(board));
                 //ArrayList<ArrayList<Integer>> domainList = generateDomains(board);
 
-                if (checkIfBoardMeetsRestrictions(board) && checkIfDomainMeetsRestrictions(generateDomains(board)) && !isCompleted(board)) {
+                ArrayList<ArrayList<Integer>> domains = generateDomains(board);
+
+                if (checkIfBoardMeetsRestrictions(board) && checkIfDomainMeetsRestrictions(domains) && !isCompleted(board)) {
                     recursiveCounter++;
                     //board = calculateFutoshikiForwardChecking(board, nextCell(currentIndex));
-                    board = calculateFutoshikiForwardChecking(board, nextCellMostRestricted(board, currentIndex));
+                    board = calculateFutoshikiForwardChecking(board, nextCellMostRestricted(boardList, domains, currentIndex));
                 }
             }
         }
@@ -502,7 +504,7 @@ public class Futoshiki {
                 if (checkIfBoardMeetsRestrictions(board) && checkIfDomainMeetsRestrictions(generateDomains(board)) && !isCompleted(board)) {
                     recursiveCounter++;
                     //board = calculateFutoshikiForwardChecking(board, nextCell(currentIndex));
-                    board = calculateFutoshikiForwardChecking(board, nextCell(currentIndex));
+                    board = calculateFutoshikiForwardCheckingClassic(board, nextCell(currentIndex));
                 }
             }
         }
@@ -545,21 +547,13 @@ public class Futoshiki {
         return cell + 1 < dimensions * dimensions ? cell + 1 : 0;
     }
 
-    private int nextCellMostRestricted(int[][] board, int current) {
-        ArrayList<ArrayList<Integer>> domains = generateDomains(board);
-
-        ArrayList<Integer> boardList = boardToList(board);
-
+    private int nextCellMostRestricted(ArrayList<Integer> boardList, ArrayList<ArrayList<Integer>> domains, int current) {
         int idSmallest = 0;
 
         for (int i = 0; i < domains.size(); i++) {
-            if (domains.get(i).size() < domains.get(idSmallest).size() && boardList.get(i) == 0) {
+            if (boardList.get(i) == 0 && domains.get(i).size() < domains.get(idSmallest).size() && i != current) {
                 idSmallest = i;
             }
-        }
-
-        if (idSmallest == current) {
-            idSmallest++;
         }
 
         return idSmallest;
