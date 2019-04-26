@@ -423,6 +423,35 @@ public class Futoshiki {
         return newItemsList;
     }
 
+    ArrayList<Integer> getEvaluatedValues(int[][] board, int index) {
+        ArrayList<Integer> values = new ArrayList<>();
+        ArrayList<Integer> boardList = boardToList(board);
+
+        for (int value = 1; value <= dimensions; value++) {
+            boardList.remove(index);
+            boardList.add(index, value);
+
+            ArrayList<ArrayList<Integer>> domains = generateDomains(boardListToBoard(boardList));
+
+            int sumOfDomains = 0;
+
+            for (ArrayList<Integer> domain : domains) {
+                sumOfDomains += domain.size();
+            }
+
+            if (values.size() > 0) {
+                int place = values.size() - 1;
+                while (sumOfDomains > values.get(place) && place > 0) {
+                    place--;
+                }
+                values.add(place, value);
+            } else {
+                values.add(value);
+            }
+        }
+        return values;
+    }
+
     int[][] calculateFutoshikiForwardChecking(int[][] board, int currentIndex) {
         ArrayList<Integer> boardList = boardToList(board);
 
@@ -431,10 +460,11 @@ public class Futoshiki {
         }
 
         if (!isCompleted(board)) {
+            //ArrayList<Integer> values = getEvaluatedValues(board, currentIndex);
 
-            for (int value = 1; value <= dimensions && !isCompleted(board); value++) {
+            for (int i = 1; i <= dimensions && !isCompleted(board); i++) {
                 boardList.remove(currentIndex);
-                boardList.add(currentIndex, value);
+                boardList.add(currentIndex, i);
 
                 board = boardListToBoard(boardList);
                 //System.out.println(boardToString(board));
@@ -442,6 +472,7 @@ public class Futoshiki {
 
                 if (checkIfBoardMeetsRestrictions(board) && checkIfDomainMeetsRestrictions(generateDomains(board)) && !isCompleted(board)) {
                     recursiveCounter++;
+                    //board = calculateFutoshikiForwardChecking(board, nextCell(currentIndex));
                     board = calculateFutoshikiForwardChecking(board, nextCellMostRestricted(board, currentIndex));
                 }
             }
