@@ -10,20 +10,26 @@ public class Main {
     }
 
     private static void multiThreadingFutoshiki() {
-        for (int dimensions = 7; dimensions < 8; dimensions++) {
-            for (int file = 0; file < 1; file++) {
+        for (int dimensions = 8; dimensions < 9; dimensions++) {
+            for (int file = 0; file < 3; file++) {
                 String filenameFutoshiki = "test_futo_" + dimensions + "_" + file;
-                Runnable futoBack = () ->
-                        calculateFutoshikiBacktracking(filenameFutoshiki);
+                //Runnable futoBack = () ->
+                //        calculateFutoshikiBacktracking(filenameFutoshiki);
 
                 Runnable futoForward = () ->
                         calculateFutoshikiForwardChecking(filenameFutoshiki);
 
-                Thread t1 = new Thread(futoBack);
-                t1.start();
+                Runnable futoForwardClassic = () ->
+                        calculateFutoshikiForwardCheckingClassic(filenameFutoshiki);
+
+                //Thread t1 = new Thread(futoBack);
+                //t1.start();
 
                 Thread t2 = new Thread(futoForward);
                 t2.start();
+
+                Thread t3 = new Thread(futoForwardClassic);
+                t3.start();
             }
         }
     }
@@ -69,7 +75,7 @@ public class Main {
                 futoshiki.boardToString(board) +
                 "Completed: " + futoshiki.isCompleted(board) + "\n" +
                 "Time: " + (System.currentTimeMillis() - startTime) + "\n" +
-                "Function call: " + futoshiki.recursiveCounter
+                "Function calls: " + futoshiki.recursiveCounter
         );
     }
 
@@ -103,6 +109,38 @@ public class Main {
                 "Completed: " + futoshiki.isCompleted(board) + "\n" +
                 "Time: " + (System.currentTimeMillis() - startTime) + "\n" +
                 "Function call: " + futoshiki.recursiveCounter
+        );
+    }
+    private static void calculateFutoshikiForwardCheckingClassic(String filename) {
+        long startTime = System.currentTimeMillis();
+
+        FileParser fileParser = new FileParser(new File("files/" + filename + ".txt"), FileParser.CSP_TYPE.FUTOSHIKI);
+
+        fileParser.parseHeader();
+        fileParser.parseFutoshikiFile();
+
+        Futoshiki futoshiki = fileParser.getFutoshiki();
+        //System.out.println(futoshiki.restrictionsToString());
+        //System.out.println(futoshiki.checkIfBoardMeetsRestrictions(futoshiki.getBoard()));
+        futoshiki.generateRestrictionSmallerMap();
+        futoshiki.generateRestrictionBiggerMap();
+        futoshiki.createRelationsSmallerMap();
+        futoshiki.createRelationsBiggerMap();
+        //System.out.println(futoshiki.printDomains(futoshiki.generateDomains(futoshiki.getBoard())));
+
+        int mostRestricted = futoshiki.getMostRestricted();
+        int lessRestricted = futoshiki.getLessRestricted();
+
+        futoshiki.setBoard(futoshiki.calculateFutoshikiForwardCheckingClassic(futoshiki.getBoard(), lessRestricted));
+        int[][] board = futoshiki.getBoard();
+        //System.out.println(futoshiki.printRelationsSmallerMap());
+        //System.out.println(futoshiki.printRelationsBiggerMap());
+
+        System.out.println("\n\nForward checking classic: " + filename + "\n" +
+                futoshiki.boardToString(board) +
+                "Completed: " + futoshiki.isCompleted(board) + "\n" +
+                "Time: " + (System.currentTimeMillis() - startTime) + "\n" +
+                "Function calls: " + futoshiki.recursiveCounter
         );
     }
 }
