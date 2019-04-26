@@ -481,6 +481,35 @@ public class Futoshiki {
         return board;
     }
 
+    int[][] calculateFutoshikiForwardCheckingClassic(int[][] board, int currentIndex) {
+        ArrayList<Integer> boardList = boardToList(board);
+
+        while (boardList.get(currentIndex) != 0) {
+            currentIndex++;
+        }
+
+        if (!isCompleted(board)) {
+            //ArrayList<Integer> values = getEvaluatedValues(board, currentIndex);
+
+            for (int i = 1; i <= dimensions && !isCompleted(board); i++) {
+                boardList.remove(currentIndex);
+                boardList.add(currentIndex, i);
+
+                board = boardListToBoard(boardList);
+                //System.out.println(boardToString(board));
+                //ArrayList<ArrayList<Integer>> domainList = generateDomains(board);
+
+                if (checkIfBoardMeetsRestrictions(board) && checkIfDomainMeetsRestrictions(generateDomains(board)) && !isCompleted(board)) {
+                    recursiveCounter++;
+                    //board = calculateFutoshikiForwardChecking(board, nextCell(currentIndex));
+                    board = calculateFutoshikiForwardChecking(board, nextCell(currentIndex));
+                }
+            }
+        }
+
+        return board;
+    }
+
     int[][] calculateFutoshikiBacktracking(int[][] board, int currentIndex) {
         ArrayList<Integer> boardList = boardToList(board);
 
